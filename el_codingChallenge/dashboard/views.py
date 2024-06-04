@@ -20,6 +20,7 @@ def userProfileDashboard(request):
                 "email": user["email"],
                 "cell_phone": user["cell"],
                 "profile_pic": user["picture"]["medium"],
+                "user_id": user["id"]["value"],
             }
             simplified_users.append(simplified_user)
         except:
