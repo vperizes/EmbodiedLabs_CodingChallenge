@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 import requests
+from django.http import JsonResponse
 
 
+# performs get request on Random user generator API
 def userProfileDashboard(request):
     base_url = "https://randomuser.me/api/"
     api_response = requests.get(base_url, params={"results": 5, "nat": "us"})
     users = api_response.json()
 
+    # simplifying the returned data into a new array. Only displaying pertinent data -> reduced dot notation/chaining on front end
     simplified_users = []
     for user in users["results"]:
         try:
@@ -23,4 +25,4 @@ def userProfileDashboard(request):
         except:
             print("invalid data")
 
-    return render(request, "dashboard/users.html", {"users": simplified_users})
+    return JsonResponse(simplified_users, safe=False)
