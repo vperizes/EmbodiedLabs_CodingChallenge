@@ -1,4 +1,3 @@
-from django.shortcuts import render
 import requests
 from django.http import JsonResponse
 
@@ -20,10 +19,10 @@ def userProfileDashboard(request):
                 "email": user["email"],
                 "cell_phone": user["cell"],
                 "profile_pic": user["picture"]["medium"],
-                "user_id": user["id"]["value"],
+                "user_id": user["login"]["uuid"],
             }
             simplified_users.append(simplified_user)
-        except:
-            print("invalid data")
+        except Exception as err:
+            print(f"Error processing user data: {err}")
 
     return JsonResponse(simplified_users, safe=False)
