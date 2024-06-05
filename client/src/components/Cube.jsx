@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import * as THREE from "three";
+import { useAllUsersContext } from "../App";
 
 const Cube = () => {
+  const { users } = useAllUsersContext();
+
   const renderCube = () => {
-    const width = 1000,
-      height = 800;
+    const width = 1000;
+    const height = 800;
 
     //initiliaze camera (fov, aspect ratio, near plane, far plane)
     const camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 10);
@@ -18,12 +21,11 @@ const Cube = () => {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(width, height);
 
-    //create box geo and mesh
+    //create cube geo and mesh
     const box_geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    const box_material = new THREE.MeshNormalMaterial();
-    const box_mesh = new THREE.Mesh(box_geo, box_material);
-    box_mesh.rotateX(10);
-    scene.add(box_mesh);
+    const box = new THREE.Mesh(box_geo, box_material);
+    box.rotateX(10);
+    scene.add(box);
 
     ///Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -38,7 +40,9 @@ const Cube = () => {
   };
 
   useEffect(() => {
-    renderCube();
+    if (users.length > 0) {
+      renderCube();
+    }
   }, []);
 
   return (

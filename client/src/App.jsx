@@ -1,6 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import Cube from "./components/Cube";
+
+const AllUsersContext = createContext();
 
 const App = () => {
   const [users, setUsers] = useState([]);
@@ -22,7 +24,7 @@ const App = () => {
   // map over users array, destructure data, and render in div
   //eventually we want to display this data on the cube: make a cub component (three js), pass data to cube.
   return (
-    <>
+    <AllUsersContext.Provider value={{ users }}>
       <h1>User Profile Dashboard</h1>
       <div>
         <div>
@@ -49,7 +51,9 @@ const App = () => {
           );
         })}
       </div>
-    </>
+    </AllUsersContext.Provider>
   );
 };
+
+export const useAllUsersContext = () => useContext(AllUsersContext);
 export default App;
