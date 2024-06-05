@@ -21,17 +21,50 @@ const Cube = () => {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(width, height);
 
+    // Function to create a texture from text
+    const createTextTexture = (text) => {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.width = 256;
+      canvas.height = 256;
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "#000000";
+      context.font = "24px Arial";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(text, canvas.width / 2, canvas.height / 2);
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    };
+
+    const materials = users.map((user) => {
+      const name = `${user.first_name} ${user.last_name}`;
+      return new THREE.MeshBasicMaterial({
+        map: createTextTexture(name),
+      });
+    });
+
+    while (materials.length < 6) {
+      materials.push(new THREE.MeshBasicMaterial({ color: 0x000000 }));
+    }
+
     //create cube geo and mesh
-    const box_geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-    const box = new THREE.Mesh(box_geo, box_material);
-    box.rotateX(10);
-    scene.add(box);
+    const cube_geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const cube = new THREE.Mesh(cube_geo, materials);
+    cube.rotation.x = 0.5;
+    cube.rotation.y = 0.5;
+    scene.add(cube);
 
     ///Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    ambientLight.castShadow = true;
-    // add light to scene
     scene.add(ambientLight);
+
+    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    spotLight.castShadow = true;
+    spotLight.position.set(0, 0.5, 20);
+    scene.add(spotLight);
 
     renderer.render(scene, camera);
 
@@ -39,11 +72,12 @@ const Cube = () => {
     document.body.appendChild(renderer.domElement);
   };
 
+  //pass in users as dependecy arr --> effect will run whenever users changes
   useEffect(() => {
     if (users.length > 0) {
       renderCube();
     }
-  }, []);
+  }, [users]);
 
   return (
     <div>
