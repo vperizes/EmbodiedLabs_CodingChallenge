@@ -50,29 +50,26 @@ const UserCube = () => {
     const rayCaster = new THREE.Raycaster();
     const mousePos = new THREE.Vector2();
 
-    const onMouseMove = (event) => {
+    const onMouseClick = (event) => {
       // calculate pointer position in normalized device coordinates
       // (-1 to +1) for both components
 
       mousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
       mousePos.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-
-    const animate = () => {
-      controls.update();
 
       rayCaster.setFromCamera(mousePos, camera);
       const intersects = rayCaster.intersectObjects(scene.children);
-      console.log(intersects);
 
       if (intersects.length > 0) {
         intersects[0].object.material.wireframe = false;
       }
+    };
 
+    const animate = () => {
+      controls.update();
       renderer.render(scene, camera);
     };
+    window.addEventListener("click", onMouseClick);
 
     renderer.setAnimationLoop(animate);
   }, [users]);
