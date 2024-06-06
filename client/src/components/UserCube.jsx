@@ -15,22 +15,27 @@ const UserCube = () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 10);
-    camera.position.z = 5;
+    camera.position.z = 6;
 
     //Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     ambientLight.castShadow = true;
     scene.add(ambientLight);
 
-    // create rounded cube
+    // create rounded cube. add user data to each cube
+    const cubes = [];
     users.forEach((user, index) => {
-      const cube_geo = new RoundedBoxGeometry(1, 1, 1, 4, 0.1);
+      const cube_geo = new RoundedBoxGeometry();
       const material = new THREE.MeshNormalMaterial({ wireframe: true });
       const roundedCube = new THREE.Mesh(cube_geo, material);
-
+      roundedCube.userData = user; //store user info in userData obj
       roundedCube.position.x = (index % 5) * 1.5 - 3; //arrange in a grid of 5 per row
-      roundedCube.position.y = Math.floor(index / 5) * 1.5;
-      scene.add(roundedCube);
+      roundedCube.rotateX(10);
+      cubes.push(roundedCube);
+    });
+
+    cubes.forEach((cube) => {
+      scene.add(cube);
     });
 
     const canvas = document.getElementById("ThreeJSCanvas");
@@ -41,12 +46,35 @@ const UserCube = () => {
     //controls
     const controls = new OrbitControls(camera, renderer.domElement);
 
+    //setup ray casting for object mouse over
+    const rayCaster = new THREE.Raycaster();
+    const mousePos = new THREE.Vector2();
+
+    const onMouseMove = (event) => {
+      // calculate pointer position in normalized device coordinates
+      // (-1 to +1) for both components
+
+      mousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mousePos.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+
     const animate = () => {
       controls.update();
+
+      rayCaster.setFromCamera(mousePos, camera);
+      const intersects = rayCaster.intersectObjects(scene.children);
+      console.log(intersects);
+
+      if (intersects.length > 0) {
+        intersects[0].object.material.wireframe = false;
+      }
+
       renderer.render(scene, camera);
-      window.requestAnimationFrame(animate); //recursively running animate every frame
     };
-    animate();
+
+    renderer.setAnimationLoop(animate);
   }, [users]);
 
   return (
