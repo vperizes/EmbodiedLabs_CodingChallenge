@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
-const Cube = () => {
+const UserCube = () => {
   const { users } = useAllUsersContext();
 
   const renderCube = () => {
@@ -109,4 +109,4 @@ const Cube = () => {
     </div>
   );
 };
-export default Cube;
+export default UserCube;

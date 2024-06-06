@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, createContext, useContext } from "react";
-import Cube from "./components/Cube";
+import UserCube from "./components/UserCube";
 
 const AllUsersContext = createContext();
 
@@ -28,7 +28,7 @@ const App = () => {
       <h1>User Profile Dashboard</h1>
       <div>
         <div>
-          <Cube />
+          <UserCube />
         </div>
         {users.map((user) => {
           const {
