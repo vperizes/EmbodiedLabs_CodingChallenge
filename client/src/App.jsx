@@ -21,35 +21,11 @@ const App = () => {
     fetchUsers();
   }, []);
 
-  // map over users array, destructure data, and render in div
-  //eventually we want to display this data on the cube: make a cub component (three js), pass data to cube.
   return (
     <AllUsersContext.Provider value={{ users }}>
       <h1>User Profile Dashboard</h1>
       <div>
-        <div>
-          <UserCube />
-        </div>
-        {users.map((user) => {
-          const {
-            first_name,
-            last_name,
-            email,
-            cell_phone,
-            profile_pic,
-            user_id,
-          } = user;
-          return (
-            <div key={user_id}>
-              <p>
-                {first_name} {last_name}
-              </p>
-              <p>{email}</p>
-              <p>{cell_phone}</p>
-              <img src={profile_pic} alt="profile pic" />
-            </div>
-          );
-        })}
+        <UserCube />
       </div>
     </AllUsersContext.Provider>
   );
