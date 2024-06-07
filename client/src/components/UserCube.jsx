@@ -7,6 +7,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 const UserCube = () => {
   const { users } = useAllUsersContext();
   const [userProfile, setUserProfile] = useState({});
+  const [selected, setSelected] = useState(false);
   const { first_name, last_name, email, cell_phone, profile_pic, user_id } =
     userProfile;
 
@@ -64,7 +65,11 @@ const UserCube = () => {
 
       const intersectedObj = intersects[0].object;
       intersectedObj.material.wireframe = !intersectedObj.material.wireframe;
-      setUserProfile(intersectedObj.userData);
+
+      if (!intersectedObj.material.wireframe) {
+        setSelected(!selected);
+        setUserProfile(intersectedObj.userData);
+      }
     };
 
     const animate = () => {
