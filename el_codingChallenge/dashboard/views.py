@@ -13,7 +13,6 @@ def userProfileDashboard(request):
     for user in users["results"]:
         try:
             simplified_user = {
-                "gender": user["gender"],
                 "first_name": user["name"]["first"],
                 "last_name": user["name"]["last"],
                 "email": user["email"],
