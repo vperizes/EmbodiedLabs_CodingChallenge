@@ -10,8 +10,9 @@ const UserCube = () => {
   const { first_name, last_name, email, cell_phone, profile_pic, user_id } =
     userProfile;
 
-  const handleUserDetails = (user_data) => {
-    setUserProfile(user_data);
+  //used to check if userProfile obj is empty
+  const isObjEmpty = (objName) => {
+    return Object.keys(objName).length === 0 && objName.constructor == Object;
   };
 
   useEffect(() => {
@@ -72,13 +73,10 @@ const UserCube = () => {
 
       if (intersects.length > 0) {
         const intersectedObj = intersects[0].object;
-        cubes.forEach((cube) => {
-          if (intersectedObj.name == cube.name) {
-            intersectedObj.material.wireframe = false;
-            handleUserDetails(cube.userData);
-            console.log(intersectedObj);
-          }
-        });
+        intersectedObj.material.wireframe = !intersectedObj.material.wireframe;
+
+        setUserProfile(intersectedObj.userData);
+        setSelected(intersectedObj.userData.user_id);
       }
     };
 
@@ -86,6 +84,7 @@ const UserCube = () => {
       //controls.update();
       renderer.render(scene, camera);
     };
+
     window.addEventListener("click", onMouseClick);
     renderer.setAnimationLoop(animate);
 
@@ -94,11 +93,6 @@ const UserCube = () => {
       window.removeEventListener("click", onMouseClick);
     };
   }, [users]);
-
-  //used to check if userProfile obj is empty
-  const isObjEmpty = (objName) => {
-    return Object.keys(objName).length === 0 && objName.constructor == Object;
-  };
 
   return (
     <div>
