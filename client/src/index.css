@@ -22,25 +22,40 @@ body {
   height: 100vh;
 }
 
-h1,
-h2 {
+h1 {
   display: flex;
+  align-items: center;
   text-align: center;
   margin-top: 20px;
 }
 
 #ThreeJSCanvas {
   margin-top: 20px;
-  border: 1px solid #034e5c;
+  border: 1px solid #aa0c90;
   border-radius: 1rem;
-  display: block;
+  display: flex;
 }
 
+h2,
 .user-details {
   position: absolute;
-  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-top: 60px;
   background-color: #034e5c;
-  padding: 10px;
+  padding: 1rem;
   border-radius: 1rem;
   z-index: 1;
+}
+p {
+  margin: 0;
+  padding: 5px;
+}
+
+.profile-pic img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 1rem;
 }

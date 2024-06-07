@@ -107,11 +107,17 @@ const UserCube = () => {
         <h2>Click on a box to display a user</h2>
       ) : (
         <div className="user-details">
-          <p>
-            {first_name} {last_name}
-          </p>
-          <p>{email}</p>
-          <p>{cell_phone}</p>
+          <div>
+            <p>
+              {first_name} {last_name}
+            </p>
+            <p>{email}</p>
+            <p>{cell_phone}</p>
+          </div>
+
+          <div className="profile-pic">
+            <img src={profile_pic} alt="profile pic" />
+          </div>
         </div>
       )}
     </div>
