@@ -31,7 +31,6 @@ const UserCube = () => {
     scene.add(ambientLight);
 
     // create rounded cube. add user data to each cube
-    const cubes = [];
     users.forEach((user, index) => {
       const cube_geo = new RoundedBoxGeometry();
       const material = new THREE.MeshNormalMaterial({ wireframe: true });
@@ -42,20 +41,12 @@ const UserCube = () => {
       roundedCube.position.y = -2;
       roundedCube.rotateX(5);
       scene.add(roundedCube);
-      cubes.push(roundedCube);
     });
-
-    // cubes.forEach((cube) => {
-    //   scene.add(cube);
-    // });
 
     const canvas = document.getElementById("ThreeJSCanvas");
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     renderer.setSize(width, height);
     document.body.appendChild(renderer.domElement);
-
-    //controls
-    //const controls = new OrbitControls(camera, renderer.domElement);
 
     //setup ray casting for object mouse over
     const rayCaster = new THREE.Raycaster();
@@ -71,26 +62,21 @@ const UserCube = () => {
       rayCaster.setFromCamera(mousePos, camera);
       const intersects = rayCaster.intersectObjects(scene.children);
 
-      if (intersects.length > 0) {
-        const intersectedObj = intersects[0].object;
-        intersectedObj.material.wireframe = !intersectedObj.material.wireframe;
-
-        setUserProfile(intersectedObj.userData);
-        setSelected(intersectedObj.userData.user_id);
-      }
+      const intersectedObj = intersects[0].object;
+      intersectedObj.material.wireframe = !intersectedObj.material.wireframe;
+      setUserProfile(intersectedObj.userData);
     };
 
     const animate = () => {
-      //controls.update();
       renderer.render(scene, camera);
     };
 
-    window.addEventListener("click", onMouseClick);
+    canvas.addEventListener("click", onMouseClick);
     renderer.setAnimationLoop(animate);
 
     // clean up event listener on component unmount
     return () => {
-      window.removeEventListener("click", onMouseClick);
+      canvas.removeEventListener("click", onMouseClick);
     };
   }, [users]);
 
