@@ -14,5 +14,5 @@ In a seperate terminal window navigate to the client folder and use the command 
 Currently there is an issue where a cube is not automatically deselected when a new cube is selected. 
 
 ### Resources
-This was my first time using three.js. As such, I realied heavily on the three.js documnetation and [these tutorials](https://youtube.com/playlist?list=PLjcjAqAnHd1EIxV4FSZIiJZvsdrBc1Xho&si=ygkpALQUv0GUyb_c)
+This was my first time using three.js. As such, I relied heavily on the three.js documentation and [these tutorials](https://youtube.com/playlist?list=PLjcjAqAnHd1EIxV4FSZIiJZvsdrBc1Xho&si=ygkpALQUv0GUyb_c)
   
