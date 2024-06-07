@@ -10,6 +10,10 @@ const UserCube = () => {
   const { first_name, last_name, email, cell_phone, profile_pic, user_id } =
     userProfile;
 
+  const handleUserDetails = (user_data) => {
+    setUserProfile(user_data);
+  };
+
   useEffect(() => {
     //init scene
     const scene = new THREE.Scene();
@@ -71,7 +75,7 @@ const UserCube = () => {
         cubes.forEach((cube) => {
           if (intersectedObj.name == cube.name) {
             intersectedObj.material.wireframe = false;
-            setUserProfile(cube.userData);
+            handleUserDetails(cube.userData);
             console.log(intersectedObj);
           }
         });
@@ -91,12 +95,17 @@ const UserCube = () => {
     };
   }, [users]);
 
-  useEffect(() => {}, [userProfile]);
+  //used to check if userProfile obj is empty
+  const isObjEmpty = (objName) => {
+    return Object.keys(objName).length === 0 && objName.constructor == Object;
+  };
 
   return (
     <div>
       <canvas id="ThreeJSCanvas"></canvas>
-      {userProfile ? (
+      {isObjEmpty(userProfile) ? (
+        <h2>Click on a box to display a user</h2>
+      ) : (
         <div className="user-details">
           <p>
             {first_name} {last_name}
@@ -104,8 +113,6 @@ const UserCube = () => {
           <p>{email}</p>
           <p>{cell_phone}</p>
         </div>
-      ) : (
-        <h2>Click on a box to display a user</h2>
       )}
     </div>
   );

@@ -22,7 +22,9 @@ body {
   height: 100vh;
 }
 
-h1 {
+h1,
+h2 {
+  display: flex;
   text-align: center;
   margin-top: 20px;
 }
